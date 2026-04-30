@@ -1,6 +1,6 @@
 # Free-Claude-Code (Gemini Optimized)
 
-> **⚠️ Status: Work in Progress**
+> **Status: Work in Progress**
 > This project is currently under active development. The bridge logic is being refined and it is **not yet fully functional**. 
 
 A high-performance bridge for running Claude Code using Gemini-powered backends. 
