@@ -1,11 +1,14 @@
 # Free-Claude-Code (Gemini Optimized)
 
+> **⚠️ Status: Work in Progress**
+> This project is currently under active development. The bridge logic is being refined and it is **not yet fully functional**. 
+
 A high-performance bridge for running Claude Code using Gemini-powered backends. 
 
-### Key Optimizations
-* **Handshake Fix**: Resolved 401 unauthorized errors during the initial connection.
-* **Tool-Index Offset**: Fixed collision errors by offsetting tool indices (+2), ensuring stable streaming for Thinking, Text, and Tool blocks.
-* **Minimalist Build**: Stripped unnecessary bloat for a leaner local inference environment.
+### Key Optimizations (In Progress)
+* **Handshake Fix**: Working on resolving 401 unauthorized errors during the initial connection.
+* **Tool-Index Offset**: Implementing tool index offsets (+2) to stabilize streaming between Thinking and Tool blocks.
+* **Minimalist Build**: Stripping unnecessary bloat for a leaner local inference environment.
 
 ### Setup
 1. Configure your environment in `.env`.
