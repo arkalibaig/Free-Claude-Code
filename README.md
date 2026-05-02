@@ -3,7 +3,7 @@
 A high performance bridge for running Claude Code using Gemini powered backends. This project provides a lean and lightweight pipeline optimized specifically for Google Gemini models.
 
 ## Project Status
-The bridge is now operational and focused strictly on Gemini integration. All redundant providers and legacy modules have been removed to ensure maximum performance and minimal latency.
+The bridge is still not fully operational and focused strictly on Gemini integration. All redundant providers and legacy modules have been removed to ensure maximum performance and minimal latency.
 
 ## Key Features
 * Gemini Optimization: Built specifically for Gemini 2.0 and 1.5 models.
