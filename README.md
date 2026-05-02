@@ -1,15 +1,26 @@
-# Free-Claude-Code (Gemini Optimized)
+# Free Claude Code Gemini Bridge
 
-> **Status: Work in Progress**
-> This project is currently under active development. The bridge logic is being refined and it is **not yet fully functional**. 
+A high performance bridge for running Claude Code using Gemini powered backends. This project provides a lean and lightweight pipeline optimized specifically for Google Gemini models.
 
-A high-performance bridge for running Claude Code using Gemini-powered backends. 
+## Project Status
+The bridge is now operational and focused strictly on Gemini integration. All redundant providers and legacy modules have been removed to ensure maximum performance and minimal latency.
 
-### Key Optimizations (In Progress)
-* **Handshake Fix**: Working on resolving 401 unauthorized errors during the initial connection.
-* **Tool-Index Offset**: Implementing tool index offsets (+2) to stabilize streaming between Thinking and Tool blocks.
-* **Minimalist Build**: Stripping unnecessary bloat for a leaner local inference environment.
+## Key Features
+* Gemini Optimization: Built specifically for Gemini 2.0 and 1.5 models.
+* Handshake Stability: Resolved connection issues and unauthorized errors.
+* Tool Index Management: Implemented tool index offsets to stabilize streaming between reasoning and action blocks.
+* Minimalist Architecture: Stripped of all unnecessary bloat for a pure local inference environment.
 
-### Setup
-1. Configure your environment in `.env`.
-2. Run the server: `python server.py`
+## Setup
+1. Configure your environment variables in the .env file.
+2. Install dependencies using uv.
+3. Start the server using the command python server.py.
+
+## Usage
+Once the server is running on localhost port 8082, point your Claude Code CLI to the local bridge:
+export ANTHROPIC_BASE_URL=http://localhost:8082/v1
+export ANTHROPIC_API_KEY=your_token
+claude
+
+## License
+MIT
