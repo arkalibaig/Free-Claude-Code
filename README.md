@@ -7,15 +7,36 @@ The bridge is fully functional. It acts as a bridge for running Claude Code usin
 
 ## Architecture
 
-The following diagram illustrates how the pipeline intercepts Anthropic requests, translates them for Gemini, and streams the compliant response back to the Claude CLI.
+The following diagram illustrates the request and response sequence within the proxy engine.
 
 ```mermaid
-graph TD
-    A[Claude CLI] -->|1. Anthropic POST /v1/messages| B[server.py / routes.py]
-    B -->|2. message_converter.py| C[Provider API: Gemini]
-    C -->|3. Provider Request| C
-    C -->|4. Provider Stream| D[sse_builder.py & heuristic_tool_parser.py]
-    D -->|5. Anthropic-compliant SSE Stream| A
+sequenceDiagram
+    autonumber
+    
+    actor CLI as Claude Code
+    
+    box transparent Proxy Engine
+        participant API as FastAPI
+        participant Conv as Message Converter
+        participant Provider as Target Provider
+        participant Stream as SSE Builder
+    end
+    
+    participant LLM as External LLM
+
+    CLI->>API: POST /v1/messages (Anthropic Payload)
+    API->>Conv: Intercept & flatten roles/tools
+    Conv-->>API: Return standard OpenAI/Gemini schema
+    
+    API->>Provider: Initialize adapter execution
+    Provider->>LLM: Async stream request (httpx)
+
+    loop Real-Time Chunk Execution
+        LLM-->>Provider: Yield raw delta chunks
+        Provider->>Stream: Parse tokens & tool calls
+        Stream-->>API: Emulate Anthropic SSE lifecycle
+        API-->>CLI: Stream text/event-stream back
+    end
 ```
 
 ### Data Flow Explanation
