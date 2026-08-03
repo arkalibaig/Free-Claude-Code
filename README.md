@@ -3,13 +3,28 @@
 A high performance bridge for running Claude Code using Gemini powered backends. This project provides a lean and lightweight pipeline optimized specifically for Google Gemini models.
 
 ## Project Status
-The bridge is still not fully operational and focused strictly on Gemini integration. All redundant providers and legacy modules have been removed to ensure maximum performance and minimal latency.
+The bridge is fully functional. It acts as a bridge for running Claude Code using Gemini powered backends. All redundant providers and legacy modules have been removed to ensure maximum performance and minimal latency.
 
-## Key Features
-* Gemini Optimization: Built specifically for Gemini 2.0 and 1.5 models.
-* Handshake Stability: Resolved connection issues and unauthorized errors.
-* Tool Index Management: Implemented tool index offsets to stabilize streaming between reasoning and action blocks.
-* Minimalist Architecture: Stripped of all unnecessary bloat for a pure local inference environment.
+## Architecture
+
+The following diagram illustrates how the pipeline intercepts Anthropic requests, translates them for Gemini, and streams the compliant response back to the Claude CLI.
+
+```mermaid
+graph TD
+    A[Claude CLI] -->|1. Anthropic POST /v1/messages| B[server.py / routes.py]
+    B -->|2. message_converter.py| C[Provider API: Gemini]
+    C -->|3. Provider Request| C
+    C -->|4. Provider Stream| D[sse_builder.py & heuristic_tool_parser.py]
+    D -->|5. Anthropic-compliant SSE Stream| A
+```
+
+### Data Flow Explanation
+1. Request Interception: The Claude Code CLI sends an Anthropic-formatted POST request to the local server.
+2. Schema Translation: The bridge maps Anthropic roles, instructions, and tool schemas into the standard Gemini format.
+3. Provider Execution: The translated payload is dispatched to the configured Gemini API.
+4. Streaming Translation: As the provider streams tokens, the bridge wraps them into the exact SSE format that the Anthropic CLI expects.
+5. Tool Parsing: A heuristic parser extracts tool calls from the stream in real time to maintain interactivity.
+6. Return Stream: The server returns a real-time SSE stream back to the Claude CLI.
 
 ## Setup
 1. Configure your environment variables in the .env file.
